@@ -19,6 +19,10 @@
 #include <sys/types.h>
 #include "utils.h"
 
+#ifdef PERF_COMPILATION
+#include "perf_reader.h"
+#endif
+
 void load_array(void* base_ptr, int final_size) {
 	// Make sure the data is actually there...
 	__asm__ __volatile__(
@@ -35,7 +39,7 @@ static int has_user_asked_for_help_message(int argc, char **argv, int arg_to_che
 	return (argc > arg_to_check) && (argv[arg_to_check][0] == '-') && ((argv[arg_to_check][1] == 'h') || (argv[arg_to_check][1] == 'H')) && (argv[arg_to_check][2] == '\0');
 }
 
-int print_help(int argc, char **argv) {
+int print_help(int argc, char **argv, size_t base_size, int base_iters) {
 	int found_help = 0;
 	for(int i = 1; i < argc; i++) {
 		if(has_user_asked_for_help_message(argc, argv, i)) {
@@ -47,10 +51,18 @@ int print_help(int argc, char **argv) {
 	if(!found_help)
 		return 0;
 
-	printf("Usage: benchmark [footprint] [num_iters]");
+	printf("Usage: benchmark [footprint (in KBs)] [num_iters]");
 	#ifdef PERF_COMPILATION
 	printf("[perf_counters_to_measure]");
 	#endif
 	printf("\n");
+	printf("Defaults:\n");
+	printf("\tfootprint (in KBs): %llu\n", (long long unsigned int)(base_size / 1024));
+	printf("\tnum_iters: %d\n", base_iters);
+	#ifdef PERF_COMPILATION
+	printf("\tperf_counters_to_measure: ");
+	perf_default_events_printer();
+	printf("\n");
+	#endif
 	return 1;
 }

@@ -37,6 +37,6 @@ typedef struct{
 #endif
 
 void load_array(void* base_ptr, int final_size);
-int print_help(int argc, char **argv);
+int print_help(int argc, char **argv, size_t base_size, int base_iters);
 
 #endif

@@ -22,5 +22,6 @@ void perf_purge(void);
 void perf_print_results(int num_iters);
 void perf_cleanup(void);
 void perf_arg_reader(int argc, char** argv, int start_index_arg_counter_ids);
+void perf_default_events_printer(void);
 
 #endif

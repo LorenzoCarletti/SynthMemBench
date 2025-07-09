@@ -191,3 +191,8 @@ void perf_arg_reader(int argc, char** argv, int start_index_arg_counter_ids) {
 		counter_ids[i] = curr_event_id;
 	}
 }
+
+void perf_default_events_printer() {
+	for (int k = 0; k < MAX_PERF_EVENTS_CPU; k++)
+		printf("%d ", counter_ids[k]);
+}

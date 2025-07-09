@@ -69,7 +69,7 @@ static void prepare(struct elem* array, unsigned size, int sequential) {
 }
 
 int main(int argc, char **argv) {
-	if(print_help(argc, argv))
+	if(print_help(argc, argv, BASE_ARRAY_SIZE, ITER))
 		return 0;
 
 	int final_size = BASE_ARRAY_SIZE;
